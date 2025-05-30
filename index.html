@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Welcome - GPS Check-In System</title>
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+      font-family: 'Times New Roman', serif;
+      background: url('gps.jpg') no-repeat center center fixed;
+      background-size: cover;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      flex-direction: column;
+    }
+
+    .header-box {
+      background-color: #006400; /* Dark Green */
+      padding: 30px 50px;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4);
+      margin-bottom: 40px;
+    }
+
+    .header-box h1 {
+      font-size: 3em;
+      color: white;
+      font-weight: bold;
+      margin: 0;
+    }
+
+    button {
+      padding: 15px 30px;
+      font-size: 18px;
+      background-color: #32CD32; /* Lighter Green */
+      color: white;
+      font-weight: bold;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #28a745; /* Slightly darker green on hover */
+    }
+  </style>
+</head>
+<body>
+  <div class="header-box">
+    <h1>Welcome to GPS Check-In System</h1>
+  </div>
+  <button onclick="window.location.href='checkin.html'">Go to Check-In</button>
+</body>
+</html>

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>GPS Check-In</title>
+  <style>
+    body {
+      font-family: 'Times New Roman', serif;
+      background: url('gps1.jpg') no-repeat center center fixed;
+      background-size: cover;
+      text-align: center;
+      padding: 50px;
+      color: black; /* Default text color */
+    }
+
+    input, button {
+      padding: 10px;
+      margin: 10px;
+      width: 250px;
+      font-size: 16px;
+      font-family: 'Times New Roman', serif;
+    }
+
+    h1 {
+      color: black;
+      font-size: 2.5em;
+      text-shadow: 1px 1px 4px rgba(255,255,255,0.7);
+    }
+
+    button {
+      background-color: #32CD32; /* Light green */
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    button:hover {
+      background-color: #28a745;
+    }
+
+    #status {
+      margin-top: 20px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <h1>GPS Check-In</h1>
+  <input type="text" id="userId" placeholder="Enter your User ID" /><br />
+  <button onclick="checkIn()">Check In</button>
+  <p id="status"></p>
+
+  <script>
+    function checkIn() {
+      const userId = document.getElementById("userId").value;
+      const status = document.getElementById("status");
+
+      if (!userId) {
+        status.style.color = "black";
+        status.innerText = "Please enter your User ID.";
+        return;
+      }
+
+      if (!navigator.geolocation) {
+        status.style.color = "black";
+        status.innerText = "Geolocation is not supported by your browser.";
+        return;
+      }
+
+      status.style.color = "black"; 
+      status.innerText = "Getting your location...";
+
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const lat = position.coords.latitude;
+          const lon = position.coords.longitude;
+          const timestamp = new Date().toISOString();
+
+          // Send to server
+          fetch("http://113.211.130.23/gps-checkin/checkin.php", {
+            method: "POST",
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: `user_id=${encodeURIComponent(userId)}&latitude=${lat}&longitude=${lon}&timestamp=${encodeURIComponent(timestamp)}`
+          })
+            .then((res) => res.text())
+            .then((data) => {
+              status.style.color = "black"; // Normal response
+              status.innerText = data;
+            })
+            .catch((err) => {
+              status.style.color = "black";
+              status.innerText = "Error sending data: " + err;
+            });
+        },
+        (error) => {
+          status.style.color = "black";
+          status.innerText = "Location permission denied or unavailable.";
+        }
+      );
+    }
+  </script>
+</body>
+</html>
